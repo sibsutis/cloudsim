@@ -35,6 +35,7 @@ import org.cloudbus.cloudsim.core.predicates.PredicateNone;
  * @since CloudSim Toolkit 1.0
  */
 public class CloudSim {
+	public static final boolean globalLog = false;
 
 	/** The Constant CLOUDSIM_VERSION_STRING. */
 	private static final String CLOUDSIM_VERSION_STRING = "3.0";
@@ -485,6 +486,16 @@ public class CloudSim {
 		}
 	}
 
+	public  static void addKeepAliveEvent(int time) {
+		SimEvent evt;
+		if (running) {
+			if (globalLog)
+				Log.printLine("Add KEEP_ALIVE event; Future size: "+future.size());
+			evt = new SimEvent(SimEvent.KEEP_ALIVE,clock + time,1);
+			future.addEvent(evt);
+		}
+	}
+
 	/**
 	 * Internal method used to add a new entity to the simulation when the simulation is running. It
 	 * should <b>not</b> be called from user simulations.
@@ -598,7 +609,6 @@ public class CloudSim {
 		if (delay < 0) {
 			throw new IllegalArgumentException("Send delay can't be negative.");
 		}
-
 		SimEvent e = new SimEvent(SimEvent.SEND, clock + delay, src, dest, tag, data);
 		future.addEvent(e);
 	}
@@ -755,6 +765,8 @@ public class CloudSim {
 			throw new IllegalArgumentException("Past event detected.");
 		}
 		clock = e.eventTime();
+		if (globalLog)
+			printMessage("Clock tick in event handle: "+clock);
 
 		// Ok now process it
 		switch (e.getType()) {
@@ -798,7 +810,6 @@ public class CloudSim {
 					entities.get(src).setState(SimEntity.RUNNABLE);
 				}
 				break;
-
 			default:
 				break;
 		}

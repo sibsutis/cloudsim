@@ -50,6 +50,11 @@ public class SimEvent implements Cloneable, Comparable<SimEvent> {
 
 	public static final int CREATE = 3;
 
+	/** Smolyak; We need this event to prevent simulation stop if there
+	 * is no lauched VMs at this time
+	 */
+	public static final int KEEP_ALIVE = 5;
+
 	/**
 	 * Create a blank event.
 	 */

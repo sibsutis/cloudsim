@@ -149,6 +149,9 @@ public class Cloudlet {
 	/** The required files. */
 	private List<String> requiredFiles = null;   // list of required filenames
 
+	/** Set this length to cloudlet if it shouldn't be stopped*/
+	public static final long INFINITE = 999999999;
+
 	/**
 	 * Allocates a new Cloudlet object. The Cloudlet length, input and output file sizes should be
 	 * greater than or equal to 1. By default this constructor sets the history of this object.
